@@ -10,12 +10,11 @@ public class CardRepository {
 
     public CardRepository() {
         // For testing, create some testing cards
-        QuizCard quizCard1 = new QuizCard();
-        quizCard1.setTitle("Testing Quiz Card 1312312312312312312");
-        QuizCard quizCard2 = new QuizCard();
-        quizCard2.setTitle("Testing Quiz Card 2");
-        addQuizCard(quizCard1);
-        addQuizCard(quizCard2);
+        for (int i = 0; i < 5; i++) {
+            QuizCard quizCard = new QuizCard();
+            quizCard.setTitle("Testing Quiz Card " + i);
+            addQuizCard(quizCard);
+        }
     }
 
     public List<QuizCard> getQuizCards() {

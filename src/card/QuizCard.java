@@ -1,5 +1,6 @@
 package card;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -11,6 +12,7 @@ public class QuizCard {
 
     public QuizCard() {
         uuid = UUID.randomUUID();
+        conceptCards = new ArrayList<>();
     }
 
     public UUID getUuid() {
@@ -37,7 +39,7 @@ public class QuizCard {
         return conceptCards;
     }
 
-    public void setConceptCards(List<ConceptCard> conceptCards) {
-        this.conceptCards = conceptCards;
+    public void addConceptCard(ConceptCard cCard) {
+        conceptCards.add(cCard);
     }
 }
