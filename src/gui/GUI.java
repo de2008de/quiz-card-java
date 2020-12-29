@@ -18,6 +18,12 @@ public class GUI {
     private CardRepository repository;
     private Dimension programSize = getScreenSize(SCALE);
 
+    private LayoutManager flowLayoutCenter = new FlowLayout(FlowLayout.CENTER);
+    private LayoutManager flowLayoutLeft = new FlowLayout(FlowLayout.LEFT);
+
+    private LayoutManager mainGridLayout = new GridLayout(1, 2);
+    private LayoutManager createGridLayout = new GridLayout(1, 2);
+
     public GUI (CardRepository repository) {
         this.repository = repository;
 
@@ -28,9 +34,31 @@ public class GUI {
         cardsContainer.setLayout(new BoxLayout(cardsContainer, BoxLayout.Y_AXIS));
         mainFrame.add(cardsContainerScroll);
 
+
+        // Create panel for creating new cards
+        JPanel createPanel = new JPanel();
+        JScrollPane createScrollPane = new JScrollPane(createPanel);
+        createScrollPane.setBorder(null);
+        createScrollPane.getViewport().setPreferredSize(getScrollSize());
+        createScrollPane.getVerticalScrollBar().setUnitIncrement(16);
+        createPanel.setLayout(createGridLayout);
+        createPanel.setBorder(BorderFactory.createEmptyBorder(10, 30, 10, 10));
+        createPanel.setBackground(new Color(250, 250, 250));
+
+        JPanel textFieldPanel = new JPanel();
+        textFieldPanel.setLayout(flowLayoutLeft);
+        textFieldPanel.setOpaque(false);
+        textFieldPanel.setPreferredSize(getScrollSize());
+        textFieldPanel.add(TextFieldFactory.getTextField("Title:", 20));
+        textFieldPanel.add(TextFieldFactory.getTextField("Description:", 20));
+        
+        createPanel.add(textFieldPanel);
+        mainFrame.add(createScrollPane);
+
+
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.setPreferredSize(programSize);
-        mainFrame.setLayout(new FlowLayout());
+        mainFrame.setLayout(mainGridLayout);
         mainFrame.getContentPane().setBackground(Color.WHITE);
     }
 
@@ -51,6 +79,6 @@ public class GUI {
     private Dimension getScrollSize() {
         int height = (int) programSize.getHeight();
         int width = (int) programSize.getWidth();
-        return new Dimension(width / 2, height - 100);
+        return new Dimension(width / 3, height - 100);
     }
 }
