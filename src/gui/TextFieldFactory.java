@@ -30,4 +30,26 @@ public class TextFieldFactory {
 
         return panel;
     }
+
+    public static JPanel getTextArea(String labelText, int row, int column) {
+        JPanel textAreaPanel = new JPanel();
+        JLabel label = new JLabel(labelText);
+        JTextArea textArea = new JTextArea(row, column);
+
+        JPanel labelPanel = new JPanel();
+        labelPanel.setLayout(flowLayoutLeft);
+        labelPanel.add(label);
+
+        textAreaPanel.setLayout(new BoxLayout(textAreaPanel, BoxLayout.Y_AXIS));
+        textAreaPanel.add(labelPanel);
+        textAreaPanel.add(textArea);
+
+        label.setFont(labelFont);
+        textArea.setFont(labelFont);
+
+        textAreaPanel.setOpaque(false);
+        labelPanel.setOpaque(false);
+
+        return textAreaPanel;
+    }
 }
