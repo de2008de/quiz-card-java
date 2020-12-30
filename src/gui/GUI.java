@@ -17,8 +17,8 @@ public class GUI {
 
     private JMenuBar menuBar;
     private JFrame mainFrame = new JFrame("QuizCard");
-    private JFrame createFrame = CreateFrameFactory.getCreateFrame();
     private JPanel cardsContainer = new JPanel();
+    private JFrame createFrame = CreateFrameFactory.getCreateFrame(cardsContainer);
     private JScrollPane cardsContainerScroll = new JScrollPane(cardsContainer);
     private CardRepository repository;
     private Dimension programSize = getScreenSize();

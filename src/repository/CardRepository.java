@@ -10,7 +10,7 @@ public class CardRepository {
 
     public CardRepository() {
         // For testing, create some testing cards
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 1; i++) {
             QuizCard quizCard = new QuizCard();
             quizCard.setTitle("Testing Quiz Card " + i);
             addQuizCard(quizCard);

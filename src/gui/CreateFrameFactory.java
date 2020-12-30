@@ -1,5 +1,9 @@
 package gui;
 
+import card.QuizCard;
+import services.CardService;
+import services.CardServiceImpl;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
@@ -16,7 +20,9 @@ public class CreateFrameFactory {
 
     private static Font titledBorderFont = new Font(null, Font.PLAIN, 24);
 
-    public static JFrame getCreateFrame() {
+    private static CardService cardService = new CardServiceImpl();
+
+    public static JFrame getCreateFrame(JPanel cardsContainer) {
         // Create panel for creating new cards
         JPanel createPanel = new JPanel();
         JScrollPane createScrollPane = new JScrollPane(
@@ -72,7 +78,18 @@ public class CreateFrameFactory {
         topBtnPanel.setOpaque(false);
         topBtnPanel.setLayout(flowLayoutLeft);
         topBtnPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 20, 0));
-        topBtnPanel.add(ButtonFactory.getControlButton("Submit", null));
+        topBtnPanel.add(ButtonFactory.getControlButton("Submit", new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Testing quiz card
+                QuizCard quizCard = new QuizCard();
+                quizCard.setTitle("Added Test quiz card");
+
+                cardService.addQuizCard(quizCard);
+                cardsContainer.add(QuizCardGUI.getQuizCardGui(quizCard), 0);
+                cardsContainer.revalidate();
+            }
+        }));
 
         // Create main container panel
         JPanel mainContainerPanel = new JPanel();
