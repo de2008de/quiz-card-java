@@ -1,5 +1,6 @@
 package gui;
 
+import card.ConceptCard;
 import card.QuizCard;
 import services.CardService;
 import services.CardServiceImpl;
@@ -10,6 +11,8 @@ import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CreateFrameFactory {
 
@@ -21,6 +24,11 @@ public class CreateFrameFactory {
     private static Font titledBorderFont = new Font(null, Font.PLAIN, 24);
 
     private static CardService cardService = new CardServiceImpl();
+
+    private static List<ConceptCardInput> conceptCardInputList = new ArrayList<>();
+
+    private static JTextField titleField;
+    private static JTextField descField;
 
     public static JFrame getCreateFrame(JPanel cardsContainer) {
         // Create panel for creating new cards
@@ -41,13 +49,17 @@ public class CreateFrameFactory {
         JPanel titlePanel = new JPanel();
         titlePanel.setLayout(flowLayoutLeft);
         titlePanel.setOpaque(false);
-        titlePanel.add(TextFieldFactory.getTextField("Title:", 20));
+        JPanel titleFieldPanel = TextFieldFactory.getTextField("Title:", 20);
+        titleField = (JTextField) titleFieldPanel.getComponent(1);
+        titlePanel.add(titleFieldPanel);
 
         // Create panel for QuizCard description text field
         JPanel descPanel = new JPanel();
         descPanel.setLayout(flowLayoutLeft);
         descPanel.setOpaque(false);
-        descPanel.add(TextFieldFactory.getTextField("Description:", 20));
+        JPanel descTextFieldPanel = TextFieldFactory.getTextField("Description:", 20);
+        descField = (JTextField) descTextFieldPanel.getComponent(1);
+        descPanel.add(descTextFieldPanel);
 
         qcTextFieldPanel.add(titlePanel);
         qcTextFieldPanel.add(descPanel);
@@ -67,7 +79,7 @@ public class CreateFrameFactory {
         conceptCardPanel = new JPanel();
         conceptCardPanel.setOpaque(false);
         conceptCardPanel.setLayout(new BoxLayout(conceptCardPanel, BoxLayout.PAGE_AXIS));
-        conceptCardPanel.add(getConceptCardInputPanel());
+        addConceptCardInputField();
 
         createPanel.add(qcTextFieldPanel);
         createPanel.add(conceptCardPanel);
@@ -83,7 +95,15 @@ public class CreateFrameFactory {
             public void actionPerformed(ActionEvent e) {
                 // Testing quiz card
                 QuizCard quizCard = new QuizCard();
-                quizCard.setTitle("Added Test quiz card");
+                quizCard.setTitle(titleField.getText());
+                quizCard.setDescription(descField.getText());
+                // Add concept cards to quiz card
+                for (ConceptCardInput cci : conceptCardInputList) {
+                    ConceptCard cc = new ConceptCard();
+                    cc.setTerm(cci.termTextField.getText());
+                    cc.setDefinition(cci.defTextArea.getText());
+                    quizCard.addConceptCard(cc);
+                }
 
                 cardService.addQuizCard(quizCard);
                 cardsContainer.add(QuizCardGUI.getQuizCardGui(quizCard), 0);
@@ -125,16 +145,24 @@ public class CreateFrameFactory {
         JPanel termPanel = new JPanel();
         termPanel.setLayout(flowLayoutLeft);
         termPanel.setOpaque(false);
-        termPanel.add(TextFieldFactory.getTextField("Term:", 10));
+        JPanel termTextFieldPanel = TextFieldFactory.getTextField("Term:", 10);
+        termPanel.add(termTextFieldPanel);
 
         // Create panel for concept card definition text field
         JPanel defPanel = new JPanel();
         defPanel.setLayout(flowLayoutLeft);
         defPanel.setOpaque(false);
-        defPanel.add(TextFieldFactory.getTextArea("Definition:", 5, 20));
+        JPanel defTextAreaPanel = TextFieldFactory.getTextArea("Definition:", 5, 20);
+        defPanel.add(defTextAreaPanel);
 
         ccTextFieldPanel.add(termPanel);
         ccTextFieldPanel.add(defPanel);
+
+        // Save text field and area in a list
+        ConceptCardInput cci = new ConceptCardInput();
+        cci.termTextField = (JTextField) termTextFieldPanel.getComponent(1);
+        cci.defTextArea = (JTextArea) defTextAreaPanel.getComponent(1);
+        conceptCardInputList.add(cci);
 
         return ccTextFieldPanel;
     }
@@ -147,5 +175,10 @@ public class CreateFrameFactory {
             }
         });
         return btn;
+    }
+
+    private static class ConceptCardInput {
+        JTextField termTextField;
+        JTextArea defTextArea;
     }
 }
