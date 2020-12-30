@@ -47,7 +47,9 @@ public class CreateFrameFactory {
         qcTextFieldPanel.add(descPanel);
         TitledBorder qcTitledBorder = BorderFactory.createTitledBorder("Quiz Card");
         qcTitledBorder.setTitleFont(titledBorderFont);
-        qcTextFieldPanel.setBorder(qcTitledBorder);
+        Border qcMarginBorder = BorderFactory.createEmptyBorder(0, 0, 0, 30);
+        Border qcCompoundBorder = BorderFactory.createCompoundBorder(qcMarginBorder, qcTitledBorder);
+        qcTextFieldPanel.setBorder(qcCompoundBorder);
 
         // Create panel for buttons
         JPanel btnPanel = new JPanel();
@@ -98,7 +100,7 @@ public class CreateFrameFactory {
 
         TitledBorder ccTitledBorder = BorderFactory.createTitledBorder("Concept Card");
         ccTitledBorder.setTitleFont(titledBorderFont);
-        Border marginBorder = BorderFactory.createEmptyBorder(30, 0, 0, 0);
+        Border marginBorder = BorderFactory.createEmptyBorder(30, 0, 0, 30);
         Border compound = BorderFactory.createCompoundBorder(marginBorder, ccTitledBorder);
         ccTextFieldPanel.setBorder(compound);
 
