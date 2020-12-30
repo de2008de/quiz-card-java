@@ -14,17 +14,19 @@ public class CreateFrameFactory {
 
     private static LayoutManager flowLayoutLeft = new FlowLayout(FlowLayout.LEFT);
 
-    private static Font btnFont = new Font(null, Font.PLAIN, 26);
     private static Font titledBorderFont = new Font(null, Font.PLAIN, 24);
 
     public static JFrame getCreateFrame() {
         // Create panel for creating new cards
         JPanel createPanel = new JPanel();
-        JScrollPane createScrollPane = new JScrollPane(createPanel);
+        JScrollPane createScrollPane = new JScrollPane(
+                createPanel,
+                JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER
+        );
         createScrollPane.setBorder(null);
         createScrollPane.getVerticalScrollBar().setUnitIncrement(16);
         createPanel.setLayout(new BoxLayout(createPanel, BoxLayout.PAGE_AXIS));
-        createPanel.setBorder(BorderFactory.createEmptyBorder(20, 50, 100, 50));
 
         JPanel qcTextFieldPanel = new JPanel();
         qcTextFieldPanel.setLayout(new BoxLayout(qcTextFieldPanel, BoxLayout.PAGE_AXIS));
@@ -63,7 +65,22 @@ public class CreateFrameFactory {
         createPanel.add(conceptCardPanel);
         createPanel.add(btnPanel);
 
-        createFrame.getContentPane().add(createScrollPane);
+        // Create panel for submit button at the top
+        JPanel topBtnPanel = new JPanel();
+        topBtnPanel.setOpaque(false);
+        topBtnPanel.setLayout(flowLayoutLeft);
+        topBtnPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 20, 0));
+        topBtnPanel.add(ButtonFactory.getControlButton("Submit", null));
+
+        // Create main container panel
+        JPanel mainContainerPanel = new JPanel();
+        mainContainerPanel.setLayout(new BoxLayout(mainContainerPanel, BoxLayout.PAGE_AXIS));
+        mainContainerPanel.setOpaque(false);
+        mainContainerPanel.setBorder(BorderFactory.createEmptyBorder(20, 50, 100, 50));
+        mainContainerPanel.add(topBtnPanel);
+        mainContainerPanel.add(createScrollPane);
+
+        createFrame.getContentPane().add(mainContainerPanel);
         createFrame.setLocation(100, 0);
         createFrame.pack();
 
@@ -104,9 +121,7 @@ public class CreateFrameFactory {
     }
 
     private static JButton getAddConceptCardBtn() {
-        JButton btn = new JButton("Add");
-        btn.setFont(btnFont);
-        btn.addActionListener(new ActionListener() {
+        JButton btn = ButtonFactory.getControlButton("+", new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 addConceptCardInputField();
