@@ -1,6 +1,7 @@
 package gui;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -78,6 +79,12 @@ public class CreateFrameFactory {
         JPanel ccTextFieldPanel = new JPanel();
         ccTextFieldPanel.setLayout(new BoxLayout(ccTextFieldPanel, BoxLayout.PAGE_AXIS));
 
+        TitledBorder ccTitledBorder = BorderFactory.createTitledBorder("Concept Card");
+        ccTitledBorder.setTitleFont(titledBorderFont);
+        Border marginBorder = BorderFactory.createEmptyBorder(30, 0, 0, 0);
+        Border compound = BorderFactory.createCompoundBorder(marginBorder, ccTitledBorder);
+        ccTextFieldPanel.setBorder(compound);
+
         // Create panel for concept card term text field
         JPanel termPanel = new JPanel();
         termPanel.setLayout(flowLayoutLeft);
@@ -92,7 +99,6 @@ public class CreateFrameFactory {
 
         ccTextFieldPanel.add(termPanel);
         ccTextFieldPanel.add(defPanel);
-        ccTextFieldPanel.setBackground(Color.YELLOW);
 
         return ccTextFieldPanel;
     }
