@@ -12,17 +12,7 @@ public class CardRepository {
     private static CardRepository cardRepository;
 
     private CardRepository() {
-        // For testing, create some testing cards
-        for (int i = 0; i < 1; i++) {
-            QuizCard quizCard = new QuizCard();
-            ConceptCard cc = new ConceptCard();
-            cc.setTerm("term");
-            cc.setDefinition("definition");
-            quizCard.addConceptCard(cc);
-            quizCard.addConceptCard(cc);
-            quizCard.setTitle("Testing Quiz Card " + i);
-            addQuizCard(quizCard);
-        }
+        
     }
 
     public static CardRepository getInstance() {
