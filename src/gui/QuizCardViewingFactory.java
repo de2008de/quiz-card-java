@@ -7,15 +7,21 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
 import java.util.List;
+import java.util.Random;
 
 public class QuizCardViewingFactory {
 
     private static Font titleFont = new Font(null, Font.PLAIN, 36);
     private static Font descFont = new Font(null, Font.PLAIN, 24);
-    private static Font termFont = new Font(null, Font.BOLD, 28);
+    private static Font termFont = new Font(null, Font.PLAIN, 28);
     private static Font defFont = new Font(null, Font.PLAIN, 20);
 
+    private static Color termColor = new Color(0, 0, 0, 0.7f);
+    private static Color defColor = new Color(0, 0, 0, 0.6f);
+
     private static LayoutManager flowLayoutLeft = new FlowLayout(FlowLayout.LEFT);
+
+    private static Color ccBgColors = new Color(252/255f, 244/255f, 212/255f, 0.7f);
 
     public static JPanel getQuizCardViewing(QuizCard quizCard) {
         JPanel qcPanel = new JPanel();
@@ -53,23 +59,27 @@ public class QuizCardViewingFactory {
         List<ConceptCard> conceptCardList = quizCard.getConceptCards();
         for (ConceptCard cc : conceptCardList) {
             JPanel ccPanel = new JPanel();
-            ccPanel.setOpaque(false);
             // Set concept card border
             JPanel borderPnel = new JPanel();
             Border lineBorder = BorderFactory.createLineBorder(Color.BLACK, 1, true);
-            Border marginBorder = BorderFactory.createEmptyBorder(20, 20, 20, 20);
-            Border compound = BorderFactory.createCompoundBorder(marginBorder, lineBorder);
-            borderPnel.setBorder(compound);
+            Border paddingBorder = BorderFactory.createEmptyBorder(20, 20, 20, 20);
+            Border compound = BorderFactory.createCompoundBorder(lineBorder, paddingBorder);
+            ccPanel.setBorder(compound);
+            ccPanel.setBackground(ccBgColors);
+            ccPanel.setLayout(new BoxLayout(ccPanel, BoxLayout.PAGE_AXIS));
+            ccPanel.setPreferredSize(new Dimension(500, 200));
+
+            Border marginBorder =  BorderFactory.createEmptyBorder(20, 20, 20, 20);
+            borderPnel.setBorder(marginBorder);
             borderPnel.setLayout(new FlowLayout(FlowLayout.LEFT));
             borderPnel.setOpaque(false);
             borderPnel.add(ccPanel);
-
-            borderPnel.setPreferredSize(new Dimension(600, 200));
 
             // Create concept card term panel
             JPanel termPanel = new JPanel();
             JLabel term = new JLabel(cc.getTerm());
             term.setFont(termFont);
+            term.setForeground(termColor);
             termPanel.setLayout(flowLayoutLeft);
             termPanel.setOpaque(false);
             termPanel.add(term);
@@ -78,7 +88,9 @@ public class QuizCardViewingFactory {
             JPanel defPanel = new JPanel();
             JLabel def = new JLabel(cc.getDefinition());
             def.setFont(defFont);
+            def.setForeground(defColor);
             defPanel.setLayout(flowLayoutLeft);
+            defPanel.setPreferredSize(new Dimension(300, 100));
             defPanel.setOpaque(false);
             defPanel.add(def);
 

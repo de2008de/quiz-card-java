@@ -33,7 +33,7 @@ public class GUI {
 
     private UUID viewingQCUUID = null;
 
-    private static Color viewingPanelBGColor = new Color(250, 250, 250);
+    private static Color viewingPanelBGColor = Color.WHITE;
 
     private Font menuFont = new Font(null, Font.PLAIN, 24);
 
@@ -159,7 +159,9 @@ public class GUI {
         if (qc != null) {
             viewingPanel.add(QuizCardViewingFactory.getQuizCardViewing(qc));
         } else {
-            viewingPanel.add(new JLabel("No QuizCard is selected."));
+            JLabel label = new JLabel("No QuizCard is selected.");
+            label.setFont(new Font(null, Font.PLAIN, 26));
+            viewingPanel.add(label);
         }
         viewingPanel.revalidate();
         return viewingScrollPanel;
