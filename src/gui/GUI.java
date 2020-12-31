@@ -23,6 +23,7 @@ public class GUI {
     private JFrame mainFrame = new JFrame("QuizCard");
     private JPanel cardsContainer = new JPanel();
     private JPanel viewingPanel = new JPanel();
+    private JScrollPane viewingScrollPanel = new JScrollPane(viewingPanel);
     private JFrame createFrame = CreateFrameFactory.getCreateFrame(cardsContainer);
     private JScrollPane cardsContainerScroll = new JScrollPane(cardsContainer);
     private CardRepository repository = CardRepository.getInstance();
@@ -39,6 +40,8 @@ public class GUI {
     private JFileChooser fc = new JFileChooser();
 
     private GUI () {
+
+        viewingScrollPanel.getVerticalScrollBar().setUnitIncrement(16);
 
         cardsContainerScroll.setBorder(null);
         cardsContainerScroll.getViewport().setPreferredSize(Utils.getScrollSize());
@@ -147,7 +150,7 @@ public class GUI {
         cardsContainer.revalidate();
     }
 
-    private JPanel updateViewingPanel() {
+    private JScrollPane updateViewingPanel() {
         viewingPanel.removeAll();
         viewingPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
         viewingPanel.setBorder(BorderFactory.createEmptyBorder(10, 50, 10, 10));
@@ -159,6 +162,6 @@ public class GUI {
             viewingPanel.add(new JLabel("No QuizCard is selected."));
         }
         viewingPanel.revalidate();
-        return viewingPanel;
+        return viewingScrollPanel;
     }
 }

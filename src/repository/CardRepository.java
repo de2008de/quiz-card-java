@@ -1,6 +1,5 @@
 package repository;
 
-import card.ConceptCard;
 import card.QuizCard;
 
 import java.util.ArrayList;
@@ -12,7 +11,7 @@ public class CardRepository {
     private static CardRepository cardRepository;
 
     private CardRepository() {
-        
+
     }
 
     public static CardRepository getInstance() {
