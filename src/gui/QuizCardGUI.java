@@ -1,10 +1,15 @@
 package gui;
 
 import card.QuizCard;
+import repository.CardRepository;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.UUID;
 
 public class QuizCardGUI {
 
@@ -25,6 +30,8 @@ public class QuizCardGUI {
 
     private static int cardWidth = 600;
     private static int cardHeight = 276;
+
+    private static GUI gui = GUI.getInstance();
 
     public static JPanel getQuizCardGui(QuizCard quizCard) {
         JPanel borderPanel = new JPanel();
@@ -119,6 +126,13 @@ public class QuizCardGUI {
         metaFlowRightPanel.setOpaque(false);
 
         quizCardGui.add(metaFlowRightPanel);
+        borderPanel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                super.mousePressed(e);
+                gui.setViewingQCUUID(quizCard.getUuid());
+            }
+        });
 
         return borderPanel;
     }
