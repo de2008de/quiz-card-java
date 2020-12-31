@@ -9,6 +9,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.util.List;
 import java.util.UUID;
 
@@ -33,7 +34,13 @@ public class GUI {
 
     private static Color viewingPanelBGColor = new Color(250, 250, 250);
 
+    private Font menuFont = new Font(null, Font.PLAIN, 24);
+
+    private JFileChooser fc = new JFileChooser();
+
     private GUI () {
+        fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+
         cardsContainerScroll.setBorder(null);
         cardsContainerScroll.getViewport().setPreferredSize(Utils.getScrollSize());
         cardsContainerScroll.getVerticalScrollBar().setUnitIncrement(16);
@@ -76,20 +83,40 @@ public class GUI {
 
     private void createMenuBar() {
         menuBar = new JMenuBar();
-        JMenu menu = new JMenu("Create");
+        JMenu qcMenu = new JMenu("QuizCard");
+        JMenu fileMenu = new JMenu("File");
 
-        menu.setFont(new Font(null, Font.PLAIN, 24));
-        JMenuItem createQCMenuItem = new JMenuItem("Create QuizCard");
-        createQCMenuItem.setFont(new Font(null, Font.PLAIN, 24));
+        fileMenu.setFont(menuFont);
+        JMenuItem saveMenuItem = new JMenuItem("Save");
+        saveMenuItem.setFont(menuFont);
+        saveMenuItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Save card repository
+                int returnVal = fc.showDialog(null, "Save");
+                if (returnVal == JFileChooser.APPROVE_OPTION) {
+                    File file = fc.getSelectedFile();
+                    Utils.saveCSV(repository.getQuizCards(), file.getPath());
+                } else {
+
+                }
+            }
+        });
+        fileMenu.add(saveMenuItem);
+
+        qcMenu.setFont(menuFont);
+        JMenuItem createQCMenuItem = new JMenuItem("Create");
+        createQCMenuItem.setFont(menuFont);
         createQCMenuItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 setCreateFrameVisible();
             }
         });
-        menu.add(createQCMenuItem);
+        qcMenu.add(createQCMenuItem);
 
-        menuBar.add(menu);
+        menuBar.add(fileMenu);
+        menuBar.add(qcMenu);
         mainFrame.setJMenuBar(menuBar);
     }
 

@@ -15,6 +15,17 @@ public class QuizCard {
         conceptCards = new ArrayList<>();
     }
 
+    public List<String> getStrings() {
+        List<String> list = new ArrayList<>();
+        list.add(getTitle());
+        list.add(getDescription());
+        for (ConceptCard cc : conceptCards) {
+            list.add(cc.getTerm());
+            list.add(cc.getDefinition());
+        }
+        return list;
+    }
+
     public UUID getUuid() {
         return uuid;
     }
