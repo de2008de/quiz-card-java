@@ -6,8 +6,7 @@ import javax.swing.*;
 public class Main {
 
     public static void main(String[] args) {
-        CardRepository cardRepository = new CardRepository();
-        GUI gui = new GUI(cardRepository);
+        GUI gui = GUI.getInstance();
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 gui.start();

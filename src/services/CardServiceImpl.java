@@ -10,7 +10,7 @@ public class CardServiceImpl implements CardService {
     private CardRepository cardRepository;
 
     public CardServiceImpl() {
-        cardRepository = new CardRepository();
+        cardRepository = CardRepository.getInstance();
     }
 
     @Override
