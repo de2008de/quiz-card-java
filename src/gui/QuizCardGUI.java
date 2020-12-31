@@ -77,7 +77,7 @@ public class QuizCardGUI {
         JLabel cardDescription = new JLabel();
         cardDescription.setFont(cardDescriptionFont);
         cardDescription.setForeground(cardDescriptionColor);
-        if (description != null) {
+        if (description != null && description.length() != 0) {
             cardDescription.setText(description);
         } else {
             cardDescription.setText("This card has no description. :p");

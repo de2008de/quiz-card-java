@@ -45,6 +45,10 @@ public class CardRepository {
         return null;
     }
 
+    public void clearRepository() {
+        quizCards.clear();
+    }
+
     public List<QuizCard> getQuizCards() {
         return quizCards;
     }

@@ -30,10 +30,14 @@ public class CreateFrameFactory {
     private static JTextField titleField;
     private static JTextField descField;
 
+    private static JScrollPane createScrollPane;
+    private static JPanel createPanel;
+    private static JPanel mainContainerPanel = new JPanel();
+
     public static JFrame getCreateFrame(JPanel cardsContainer) {
         // Create panel for creating new cards
-        JPanel createPanel = new JPanel();
-        JScrollPane createScrollPane = new JScrollPane(
+        createPanel = new JPanel();
+        createScrollPane = new JScrollPane(
                 createPanel,
                 JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
                 JScrollPane.HORIZONTAL_SCROLLBAR_NEVER
@@ -93,7 +97,6 @@ public class CreateFrameFactory {
         topBtnPanel.add(ButtonFactory.getControlButton("Submit", new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Testing quiz card
                 QuizCard quizCard = new QuizCard();
                 quizCard.setTitle(titleField.getText());
                 quizCard.setDescription(descField.getText());
@@ -112,7 +115,6 @@ public class CreateFrameFactory {
         }));
 
         // Create main container panel
-        JPanel mainContainerPanel = new JPanel();
         mainContainerPanel.setLayout(new BoxLayout(mainContainerPanel, BoxLayout.PAGE_AXIS));
         mainContainerPanel.setOpaque(false);
         mainContainerPanel.setBorder(BorderFactory.createEmptyBorder(20, 50, 100, 50));
@@ -128,7 +130,7 @@ public class CreateFrameFactory {
 
     public static void addConceptCardInputField() {
         conceptCardPanel.add(getConceptCardInputPanel());
-        createFrame.revalidate();
+        mainContainerPanel.revalidate();
     }
 
     private static JPanel getConceptCardInputPanel() {

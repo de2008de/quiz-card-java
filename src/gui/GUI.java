@@ -39,13 +39,11 @@ public class GUI {
     private JFileChooser fc = new JFileChooser();
 
     private GUI () {
-        fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 
         cardsContainerScroll.setBorder(null);
         cardsContainerScroll.getViewport().setPreferredSize(Utils.getScrollSize());
         cardsContainerScroll.getVerticalScrollBar().setUnitIncrement(16);
 
-        cardsContainer.setLayout(new BoxLayout(cardsContainer, BoxLayout.Y_AXIS));
         mainFrame.getContentPane().add(cardsContainerScroll);
         mainFrame.getContentPane().add(updateViewingPanel());
 
@@ -93,6 +91,7 @@ public class GUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Save card repository
+                fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
                 int returnVal = fc.showDialog(null, "Save");
                 if (returnVal == JFileChooser.APPROVE_OPTION) {
                     File file = fc.getSelectedFile();
@@ -103,6 +102,24 @@ public class GUI {
             }
         });
         fileMenu.add(saveMenuItem);
+
+        JMenuItem loadMenuItem = new JMenuItem("Load");
+        loadMenuItem.setFont(menuFont);
+        loadMenuItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Load csv into card repository
+                fc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+                int returnVal = fc.showDialog(null, "Load");
+                if (returnVal == JFileChooser.APPROVE_OPTION) {
+                    File file = fc.getSelectedFile();
+                    Utils.loadCSV(file.getPath());
+                } else {
+
+                }
+            }
+        });
+        fileMenu.add(loadMenuItem);
 
         qcMenu.setFont(menuFont);
         JMenuItem createQCMenuItem = new JMenuItem("Create");
@@ -120,11 +137,14 @@ public class GUI {
         mainFrame.setJMenuBar(menuBar);
     }
 
-    private void addCardsToPanel() {
+    public void addCardsToPanel() {
+        cardsContainer.removeAll();
+        cardsContainer.setLayout(new BoxLayout(cardsContainer, BoxLayout.Y_AXIS));
         List<QuizCard> quizCardList = repository.getQuizCards();
         for (QuizCard quizCard : quizCardList) {
             cardsContainer.add(QuizCardGUI.getQuizCardGui(quizCard));
         }
+        cardsContainer.revalidate();
     }
 
     private JPanel updateViewingPanel() {

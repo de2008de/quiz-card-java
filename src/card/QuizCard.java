@@ -18,7 +18,11 @@ public class QuizCard {
     public List<String> getStrings() {
         List<String> list = new ArrayList<>();
         list.add(getTitle());
-        list.add(getDescription());
+        String description = getDescription();
+        if (description == null) {
+            description = "";
+        }
+        list.add(description);
         for (ConceptCard cc : conceptCards) {
             list.add(cc.getTerm());
             list.add(cc.getDefinition());
