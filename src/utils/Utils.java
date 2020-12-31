@@ -64,7 +64,7 @@ public class Utils {
                 for (int i = 2; i < csvStrings.length; i += 2) {
                     ConceptCard cc = new ConceptCard();
                     cc.setTerm(csvStrings[i]);
-                    cc.setTerm(csvStrings[i+1]);
+                    cc.setDefinition(csvStrings[i+1]);
                     qc.addConceptCard(cc);
                 }
                 repository.addQuizCard(qc);
