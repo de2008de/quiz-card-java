@@ -18,6 +18,8 @@ public class Utils {
     private static Toolkit t = Toolkit.getDefaultToolkit();
     private static final double SCALE = 0.8;
     private static CardRepository repository = CardRepository.getInstance();
+    private static String delimiter = "/qc-delimiter/";
+    private static String qcComma = "/qc-comma/";
 
     public static Dimension getScreenSize() {
         Dimension d = t.getScreenSize();
@@ -33,19 +35,20 @@ public class Utils {
 
     public static void saveCSV(List<QuizCard> quizCardList, String path) {
         // Open file to save
-        path = path + "\\quizcard.csv";
+        path = path + "\\quizcard.qc";
         File csvOutputFile = new File(path);
         List<String> csvStringList = new ArrayList<>();
         for (QuizCard qc : quizCardList) {
             List<String> stringList = qc.getStrings();
             // Convert to CSV
             String csvString = stringList.stream()
-                    .collect(Collectors.joining(","));
+                    .collect(Collectors.joining(qcComma));
+            csvString += delimiter;
             csvStringList.add(csvString);
         }
         try (PrintWriter pw = new PrintWriter(csvOutputFile)) {
             csvStringList.stream()
-                    .forEach(pw::println);
+                    .forEach(pw::print);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -54,9 +57,10 @@ public class Utils {
     public static void loadCSV(String path) {
         try (Scanner scanner = new Scanner(new File(path))) {
             repository.clearRepository();
-            while (scanner.hasNextLine()) {
-                String csvString = scanner.nextLine();
-                String[] csvStrings = csvString.split(",");
+            scanner.useDelimiter(delimiter);
+            while (scanner.hasNext()) {
+                String csvString = scanner.next();
+                String[] csvStrings = csvString.split(qcComma);
                 QuizCard qc = new QuizCard();
                 qc.setTitle(csvStrings[0]);
                 qc.setDescription(csvStrings[1]);

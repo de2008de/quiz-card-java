@@ -67,30 +67,32 @@ public class QuizCardViewingFactory {
             ccPanel.setBorder(compound);
             ccPanel.setBackground(ccBgColors);
             ccPanel.setLayout(new BoxLayout(ccPanel, BoxLayout.PAGE_AXIS));
-            ccPanel.setPreferredSize(new Dimension(500, 200));
 
             Border marginBorder =  BorderFactory.createEmptyBorder(20, 20, 20, 20);
             borderPnel.setBorder(marginBorder);
-            borderPnel.setLayout(new FlowLayout(FlowLayout.LEFT));
+            borderPnel.setLayout(new BoxLayout(borderPnel, BoxLayout.PAGE_AXIS));
             borderPnel.setOpaque(false);
             borderPnel.add(ccPanel);
 
             // Create concept card term panel
             JPanel termPanel = new JPanel();
-            JLabel term = new JLabel(cc.getTerm());
+            JTextArea term = new JTextArea(cc.getTerm());
             term.setFont(termFont);
             term.setForeground(termColor);
-            termPanel.setLayout(flowLayoutLeft);
+            term.setOpaque(false);
+            termPanel.setLayout(new BoxLayout(termPanel, BoxLayout.PAGE_AXIS));
             termPanel.setOpaque(false);
             termPanel.add(term);
 
             // Create concept card definition panel
             JPanel defPanel = new JPanel();
-            JLabel def = new JLabel(cc.getDefinition());
+            JTextArea def = new JTextArea(cc.getDefinition());
             def.setFont(defFont);
             def.setForeground(defColor);
-            defPanel.setLayout(flowLayoutLeft);
-            defPanel.setPreferredSize(new Dimension(300, 100));
+            def.setOpaque(false);
+            def.setLineWrap(true);
+            def.setWrapStyleWord(true);
+            defPanel.setLayout(new BoxLayout(defPanel, BoxLayout.PAGE_AXIS));
             defPanel.setOpaque(false);
             defPanel.add(def);
 

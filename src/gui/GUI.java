@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.UUID;
 
 import static utils.Utils.getScreenSize;
+import static utils.Utils.getScrollSize;
 
 public class GUI {
 
@@ -152,7 +153,7 @@ public class GUI {
 
     private JScrollPane updateViewingPanel() {
         viewingPanel.removeAll();
-        viewingPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+        viewingPanel.setLayout(new BoxLayout(viewingPanel, BoxLayout.PAGE_AXIS));
         viewingPanel.setBorder(BorderFactory.createEmptyBorder(10, 50, 10, 10));
         viewingPanel.setBackground(viewingPanelBGColor);
         QuizCard qc = repository.getQCbyUUID(viewingQCUUID);
