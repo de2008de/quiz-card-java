@@ -31,6 +31,8 @@ public class GUI {
 
     private UUID viewingQCUUID = null;
 
+    private static Color viewingPanelBGColor = new Color(250, 250, 250);
+
     private GUI () {
         cardsContainerScroll.setBorder(null);
         cardsContainerScroll.getViewport().setPreferredSize(Utils.getScrollSize());
@@ -38,7 +40,7 @@ public class GUI {
 
         cardsContainer.setLayout(new BoxLayout(cardsContainer, BoxLayout.Y_AXIS));
         mainFrame.getContentPane().add(cardsContainerScroll);
-        mainFrame.getContentPane().add(getViewingPanel());
+        mainFrame.getContentPane().add(updateViewingPanel());
 
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.setPreferredSize(programSize);
@@ -98,29 +100,18 @@ public class GUI {
         }
     }
 
-    /**
-     * Create and return a panel for viewing QuizCard.
-     * @return
-     */
-    private JPanel getViewingPanel() {
-        viewingPanel.setLayout(new BoxLayout(viewingPanel, BoxLayout.PAGE_AXIS));
-        if (viewingQCUUID == null) {
-            viewingPanel.add(new JLabel("No QuizCard is selected."));
-        } else {
-            viewingPanel.add(new JLabel(viewingQCUUID.toString()));
-        }
-        return viewingPanel;
-    }
-
-    private void updateViewingPanel() {
+    private JPanel updateViewingPanel() {
         viewingPanel.removeAll();
+        viewingPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+        viewingPanel.setBorder(BorderFactory.createEmptyBorder(10, 50, 10, 10));
+        viewingPanel.setBackground(viewingPanelBGColor);
         QuizCard qc = repository.getQCbyUUID(viewingQCUUID);
         if (qc != null) {
             viewingPanel.add(QuizCardViewingFactory.getQuizCardViewing(qc));
         } else {
             viewingPanel.add(new JLabel("No QuizCard is selected."));
         }
-
         viewingPanel.revalidate();
+        return viewingPanel;
     }
 }
