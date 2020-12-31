@@ -151,6 +151,17 @@ public class GUI {
         cardsContainer.revalidate();
     }
 
+    private void viewingPanelScrollToTop() {
+        SwingUtilities.invokeLater(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                viewingScrollPanel.getVerticalScrollBar().setValue(0);
+            }
+        });
+    }
+
     private JScrollPane updateViewingPanel() {
         viewingPanel.removeAll();
         viewingPanel.setLayout(new BoxLayout(viewingPanel, BoxLayout.PAGE_AXIS));
@@ -165,6 +176,7 @@ public class GUI {
             viewingPanel.add(label);
         }
         viewingPanel.revalidate();
+        viewingPanelScrollToTop();
         return viewingScrollPanel;
     }
 }
