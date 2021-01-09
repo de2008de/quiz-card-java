@@ -9,6 +9,7 @@ import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -20,6 +21,7 @@ public class Utils {
     private static CardRepository repository = CardRepository.getInstance();
     private static String delimiter = "/qc-delimiter/";
     private static String qcComma = "/qc-comma/";
+    private static String encoding = "UTF-8";
 
     public static Dimension getScreenSize() {
         Dimension d = t.getScreenSize();
@@ -46,16 +48,18 @@ public class Utils {
             csvString += delimiter;
             csvStringList.add(csvString);
         }
-        try (PrintWriter pw = new PrintWriter(csvOutputFile)) {
+        try (PrintWriter pw = new PrintWriter(csvOutputFile, encoding)) {
             csvStringList.stream()
                     .forEach(pw::print);
         } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
     }
 
     public static void loadCSV(String path) {
-        try (Scanner scanner = new Scanner(new File(path))) {
+        try (Scanner scanner = new Scanner(new File(path), encoding)) {
             repository.clearRepository();
             scanner.useDelimiter(delimiter);
             while (scanner.hasNext()) {
